@@ -1,12 +1,21 @@
-import ReservationCard from '@/app/_components/ReservationCard';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { auth } from '@/app/_lib/auth';
+import { getBookings } from '@/app/_lib/data-service';
+import ReservationList from '@/app/_components/ReservationList';
 
 export const metadata = {
   title: 'Reservations',
 };
 
-export default function Reservations() {
-  // CHANGE
-  const bookings = [];
+export default async function Page() {
+  const session = await auth();
+
+  if (!session?.user) {
+    redirect('/login');
+  }
+
+  const bookings = await getBookings(session.user.guestId);
 
   return (
     <div>
@@ -15,18 +24,14 @@ export default function Reservations() {
       </h2>
 
       {bookings.length === 0 ? (
-        <p className="text-lg text-[#D2AF84]">
+        <p className="text-lg text-[#B7C7D7]">
           You have no reservations yet. Check out our{' '}
-          <a className="underline text-[#C69963]" href="/cabins">
+          <Link className="underline text-[#C69963]" href="/cabins">
             luxury cabins &rarr;
-          </a>
+          </Link>
         </p>
       ) : (
-        <ul className="space-y-6">
-          {bookings.map((booking) => (
-            <ReservationCard booking={booking} key={booking.id} />
-          ))}
-        </ul>
+        <ReservationList bookings={bookings} />
       )}
     </div>
   );

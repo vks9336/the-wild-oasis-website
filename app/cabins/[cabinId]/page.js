@@ -1,54 +1,69 @@
-import { getCabin } from '@/app/_lib/data-service';
-import { EyeSlashIcon, MapPinIcon, UsersIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
+import { getCabin, getCabins, getBookedDatesByCabinId, getSettings } from '@/app/_lib/data-service';
+import { auth } from '@/app/_lib/auth';
+import Reservation from '@/app/_components/Reservation';
+import { EyeSlashIcon, MapPinIcon, UsersIcon } from '@heroicons/react/24/solid';
 
 export async function generateMetadata({ params }) {
-  const { name } = await getCabin(params.cabinId);
+  const { cabinId } = await params;
+  const cabin = await getCabin(cabinId);
+  const { name } = cabin;
   return { title: `Cabin ${name}` };
 }
 
+export async function generateStaticParams() {
+  const cabins = await getCabins();
+  const ids = cabins.map((cabin) => ({ cabinId: String(cabin.id) }));
+  return ids;
+}
+
 export default async function Page({ params }) {
-  const cabin = await getCabin(params.cabinId);
-  const { id, name, maxCapacity, regularPrice, discount, image, description } =
-    cabin;
+  const { cabinId } = await params;
+  const cabin = await getCabin(cabinId);
+  const session = await auth();
+  const [settings, bookedDates] = await Promise.all([
+    getSettings(),
+    getBookedDatesByCabinId(cabin.id),
+  ]);
+
+  const { name, maxCapacity, image, description } = cabin;
 
   return (
     <div className="max-w-6xl mx-auto mt-8">
-      <div className="grid grid-cols-[3fr_4fr] gap-20 border border-[#2C3D4F] py-3 px-10 mb-24">
+      <div className="grid grid-cols-[3fr_4fr] gap-20 border border-[#4C6B8A] py-3 px-10 mb-24 rounded-xl">
         <div className="relative scale-[1.15] -translate-x-3">
           <Image
             src={image}
-            fill
             alt={`Cabin ${name}`}
-            className="object-cover"
+            fill
+            className="object-cover rounded-xl"
           />
         </div>
 
         <div>
-          <h3 className="text-[#F4ECE1] font-black text-7xl mb-5 translate-x-[-254px] bg-[#141C24] p-6 pb-1 w-[150%]">
+          <h3 className="text-[#C69963] font-black text-7xl mb-5 translate-x-[-254px] bg-[#1E2831] p-6 pb-1 w-[150%] rounded-tl-xl rounded-br-xl">
             Cabin {name}
           </h3>
 
-          <p className="text-lg text-[#99B0C7] mb-10">{description}</p>
+          <p className="text-lg text-[#B7C7D7] mb-10">{description}</p>
 
           <ul className="flex flex-col gap-4 mb-7">
             <li className="flex gap-3 items-center">
-              <UsersIcon className="h-5 w-5 text-[#4C6B8A]" />
-              <span className="text-lg">
-                For up to <span className="font-bold">{maxCapacity}</span>{' '}
-                guests
+              <UsersIcon className="h-5 w-5 text-[#C69963]" />
+              <span className="text-lg text-[#D4DEE7]">
+                For up to <span className="font-bold">{maxCapacity}</span> guests
               </span>
             </li>
             <li className="flex gap-3 items-center">
-              <MapPinIcon className="h-5 w-5 text-[#4C6B8A]" />
-              <span className="text-lg">
+              <MapPinIcon className="h-5 w-5 text-[#C69963]" />
+              <span className="text-lg text-[#D4DEE7]">
                 Located in the heart of the{' '}
                 <span className="font-bold">Dolomites</span> (Italy)
               </span>
             </li>
             <li className="flex gap-3 items-center">
-              <EyeSlashIcon className="h-5 w-5 text-[#4C6B8A]" />
-              <span className="text-lg">
+              <EyeSlashIcon className="h-5 w-5 text-[#C69963]" />
+              <span className="text-lg text-[#D4DEE7]">
                 Privacy <span className="font-bold">100%</span> guaranteed
               </span>
             </li>
@@ -57,9 +72,16 @@ export default async function Page({ params }) {
       </div>
 
       <div>
-        <h2 className="text-5xl font-semibold text-center">
-          Reserve today. Pay on arrival.
+        <h2 className="text-5xl font-semibold text-center mb-10 text-[#C69963]">
+          Reserve {name} today. Pay on arrival.
         </h2>
+
+        <Reservation 
+          cabin={cabin} 
+          settings={settings}
+          bookedDates={bookedDates}
+          user={session?.user}
+        />
       </div>
     </div>
   );

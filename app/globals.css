@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles for react-day-picker */
+.rdp {
+  --rdp-cell-size: 50px;
+  --rdp-accent-color: #c69963;
+  --rdp-background-color: rgba(198, 153, 99, 0.1);
+  --rdp-outline: 2px solid #c69963;
+  margin: 1rem;
+}
+
+.rdp-months {
+  display: flex;
+  gap: 2rem;
+}
+
+.rdp-month {
+  background: #1e2831;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.rdp-caption {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #c69963;
+  margin-bottom: 1rem;
+}
+
+.rdp-nav {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.rdp-nav_button {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.375rem;
+  background: #2c3d4f;
+  color: #d4dee7;
+  border: 1px solid #4c6b8a;
+  transition: all 0.2s;
+}
+
+.rdp-nav_button:hover {
+  background: #c69963;
+  color: #1e2831;
+}
+
+.rdp-head_cell {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #99b0c7;
+  text-transform: uppercase;
+}
+
+.rdp-cell {
+  padding: 0.25rem;
+}
+
+.rdp-day {
+  width: var(--rdp-cell-size);
+  height: var(--rdp-cell-size);
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: #d4dee7;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.rdp-day:hover:not(.rdp-day_disabled) {
+  background: #2c3d4f;
+  border-color: #4c6b8a;
+}
+
+.rdp-day_selected {
+  background: #c69963 !important;
+  color: #1e2831 !important;
+  font-weight: 600;
+  border-color: #c69963 !important;
+}
+
+.rdp-day_today {
+  font-weight: 700;
+  color: #c69963;
+  border-color: #c69963;
+}
+
+.rdp-day_disabled {
+  color: #4c6b8a;
+  text-decoration: line-through;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.rdp-day_disabled:hover {
+  background: transparent;
+  border-color: transparent;
+}
+
+.rdp-day_range_start,
+.rdp-day_range_end {
+  background: #c69963 !important;
+  color: #1e2831 !important;
+  font-weight: 700;
+}
+
+.rdp-day_range_middle {
+  background: rgba(198, 153, 99, 0.3);
+  border-radius: 0;
+}
+

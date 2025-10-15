@@ -2,9 +2,24 @@
 const nextConfig = {
   images: {
     remotePatterns: [
-      new URL(
-        'https://ggnhqfrwcovqlprhobzj.supabase.co/storage/v1/object/public/cabin-images/**'
-      ),
+      {
+        protocol: 'https',
+        hostname: 'ggnhqfrwcovqlprhobzj.supabase.co',
+        port: '',
+        pathname: '/storage/v1/object/public/cabin-images/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'authjs.dev',
+        port: '',
+        pathname: '/img/providers/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };
