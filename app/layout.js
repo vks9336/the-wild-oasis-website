@@ -1,4 +1,4 @@
-import '../app/_styles/globals.css';
+import './_styles/globals.css';
 import Header from './_components/Header';
 import Logo from './_components/Logo';
 import Navigation from './_components/Navigation';

@@ -4,11 +4,11 @@ import about2 from '@/public/about-2.jpg';
 import Link from 'next/link';
 import { getCabins } from '../_lib/data-service';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'About',
 };
-
-export const revalidate = 86400;
 
 export default async function About() {
   const cabins = await getCabins();

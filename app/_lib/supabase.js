@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { fetch } from 'undici';
 
 // Ensure environment variables are set
 const supabaseUrl = process.env.SUPABASE_URL;
@@ -12,12 +13,13 @@ if (!supabaseKey) {
   throw new Error('Missing SUPABASE_KEY environment variable');
 }
 
-// Custom fetch configuration to handle SSL properly in Node.js
+// Custom fetch with longer timeout and connection settings
 const customFetch = (url, options = {}) => {
   return fetch(url, {
     ...options,
-    // Disable SSL verification for development (use only in dev!)
-    // In production, remove this or configure proper SSL certs
+    keepalive: true,
+    // Increase timeouts for slow network
+    signal: options.signal || AbortSignal.timeout(60000), // 60 second timeout
   });
 };
 
