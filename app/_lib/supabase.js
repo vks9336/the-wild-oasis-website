@@ -3,8 +3,7 @@ import { fetch } from 'undici';
 
 // Supabase configuration with fallback values
 const supabaseUrl =
-  process.env.SUPABASE_URL ||
-  'https://ggnhqfrwcovqlprhobzj.supabase.co';
+  process.env.SUPABASE_URL || 'https://ggnhqfrwcovqlprhobzj.supabase.co';
 const supabaseKey =
   process.env.SUPABASE_KEY ||
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdnbmhxZnJ3Y292cWxwcmhvYnpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk1NDkzNTIsImV4cCI6MjA2NTEyNTM1Mn0.QNUeUcwU6MaZ4ova9npEAOFi60KHvxPyDnpci7xJeF4';

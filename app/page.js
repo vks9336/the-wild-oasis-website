@@ -4,14 +4,15 @@ import bg from '../public/bg.png';
 
 export default function Page() {
   return (
-    <main className="mt-24">
+    <main className="mt-24 relative min-h-screen">
       <Image
-        className=" object-cover object-top"
+        className="object-cover object-top"
         src={bg}
         fill
         quality={80}
         placeholder="blur"
         alt="Mountains and forests with two cabins"
+        priority
       />
 
       <div className="relative z-10 text-center">
